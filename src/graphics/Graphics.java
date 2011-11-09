@@ -32,7 +32,7 @@ public class Graphics {
     private static void initDisplay() {
         try {
             Display.setDisplayMode(new DisplayMode(DISPLAY_WIDTH, DISPLAY_HEIGHT));
-            Display.setTitle("Asteroids");
+            Display.setTitle("Best Game");
             // Use OpenGL 3.2 Core profile so that deprecated functionality can't be used
             Display.create(new PixelFormat(), new ContextAttribs(3, 2).withProfileCore(true));
         } catch (LWJGLException ex) {
