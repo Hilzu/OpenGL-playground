@@ -19,6 +19,7 @@ public class Graphics {
 
     public static final int DISPLAY_WIDTH = 800;
     public static final int DISPLAY_HEIGHT = 600;
+    public static final int VERT_ATTRIB = 0;
     private static int vertexArrayObjectID;
     private static int vertexBufferObjectID;
 
@@ -51,8 +52,8 @@ public class Graphics {
         vertexBufferObjectID = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexBufferObjectID);
         
-        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-        GL20.glEnableVertexAttribArray(0);
+        GL20.glVertexAttribPointer(VERT_ATTRIB, 3, GL11.GL_FLOAT, false, 0, 0);
+        GL20.glEnableVertexAttribArray(VERT_ATTRIB);
     }
 
     public static void checkGLErrors(String msg) {
