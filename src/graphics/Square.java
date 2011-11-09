@@ -11,9 +11,10 @@ import org.lwjgl.opengl.GL20;
 public class Square {
 
     private final float[] data = {
-        0.0f, 1.0f, 0.0f,
         -1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f
+        1.0f, -1.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f
     };
     private FloatBuffer vertices;
     private int vertexShader;
@@ -74,7 +75,7 @@ public class Square {
         GL20.glAttachShader(shaderProgram, vertexShader);
         GL20.glAttachShader(shaderProgram, fragmentShader);
         
-        GL20.glBindAttribLocation(shaderProgram, 0, "in_Position");
+        GL20.glBindAttribLocation(shaderProgram, Graphics.VERT_ATTRIB, "in_Position");
         
         GL20.glLinkProgram(shaderProgram);
         IntBuffer linked = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
@@ -90,10 +91,7 @@ public class Square {
     
     public void draw() {
         GL20.glUseProgram(shaderProgram);
-        Graphics.checkGLErrors("useprog");
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
-        Graphics.checkGLErrors("buffer");
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 3);
-        Graphics.checkGLErrors("drawarr");
+        GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
     }
 }
