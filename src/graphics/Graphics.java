@@ -73,4 +73,12 @@ public class Graphics {
         floatBuffer.put(floatArray).position(0);
         return floatBuffer;
     }
+    
+    public static int getVAO() {
+        return vertexArrayObjectID;
+    }
+    
+    public static int getVBO() {
+        return vertexBufferObjectID;
+    }
 }
