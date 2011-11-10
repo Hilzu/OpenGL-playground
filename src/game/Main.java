@@ -12,7 +12,11 @@ public class Main {
         Square sq = new Square();
         sq.scale(0.5f, 0.5f);
         
+        Time.updateFrameDelta();
+        
         while(!Display.isCloseRequested()) {
+            Time.updateFrameDelta();
+            
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             Graphics.checkGLErrors("clear");
             sq.draw();
