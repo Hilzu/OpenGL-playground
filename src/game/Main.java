@@ -1,5 +1,6 @@
 package game;
 
+import ai.BasicAgent;
 import graphics.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -11,6 +12,7 @@ public class Main {
         
         Square sq = new Square();
         sq.scale(0.5f, 0.5f);
+        BasicAgent agent = new BasicAgent(sq);
         
         Time.updateFrameDelta();
         
@@ -19,6 +21,7 @@ public class Main {
             
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             Graphics.checkGLErrors("clear");
+            agent.tick();
             sq.draw();
             Graphics.checkGLErrors("draw");
             
