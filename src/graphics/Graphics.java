@@ -28,6 +28,7 @@ public class Graphics {
         checkGLErrors("Display init");
         initGL();
         checkGLErrors("GL init");
+        ShaderManager.initShaders();
     }
 
     private static void initDisplay() {
