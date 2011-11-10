@@ -86,4 +86,12 @@ public class Square {
     public void moveTo(Vector2f location) {
         this.moveTo(location.x, location.y);
     }
+    
+    public Vector2f getDirection() {
+        return new Vector2f(modelViewProjectionMat.m10, modelViewProjectionMat.m11);
+    }
+
+    public Vector2f getLocation() {
+        return new Vector2f(modelViewProjectionMat.m30, modelViewProjectionMat.m31);
+    }
 }
