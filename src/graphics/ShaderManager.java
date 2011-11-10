@@ -3,6 +3,7 @@ package graphics;
 import game.Util;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.EnumMap;
 import java.util.Map;
@@ -27,13 +28,21 @@ public class ShaderManager {
         }
     }
 
-    public static void useShader(Shader shaderType) {
+    public static void useShader(Shader shaderType, FloatBuffer... uniforms) {
         if (!shaderPrograms.containsKey(shaderType)) {
             System.out.println("Shader " + shaderType + " not initialized! "
                     + "Have you ran initShaders()?");
             System.exit(1);
         }
         GL20.glUseProgram(shaderPrograms.get(shaderType));
+        
+        switch (shaderType) {
+            case SIMPLE: {
+                int uniformLoc = GL20.glGetUniformLocation(shaderPrograms.get(Shader.SIMPLE), "mvpMat");
+                GL20.glUniformMatrix4(uniformLoc, false, uniforms[0]);
+                break;
+            }
+        }
     }
 
     private static int compileShader(int shaderType, String shaderSrc) {

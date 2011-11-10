@@ -10,6 +10,7 @@ public class Main {
         Graphics.init();
         
         Square sq = new Square();
+        sq.scale(0.5f, 0.5f);
         
         while(!Display.isCloseRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
