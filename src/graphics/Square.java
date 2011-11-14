@@ -97,4 +97,8 @@ public class Square {
     public Vector2f getLocation() {
         return new Vector2f(modelViewMatrix.m30, modelViewMatrix.m31);
     }
+    
+    public Vector2f getScale() {
+        return new Vector2f(modelViewMatrix.m00, modelViewMatrix.m11);
+    }
 }
