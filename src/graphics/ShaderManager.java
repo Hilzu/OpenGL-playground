@@ -29,29 +29,31 @@ public class ShaderManager {
     }
 
     public static void useShader(Shader shaderType, FloatBuffer... uniforms) {
-        if (!shaderPrograms.containsKey(shaderType)) {
+        Integer shaderProgram = shaderPrograms.get(shaderType);
+        if (shaderProgram == null) {
             System.out.println("Shader " + shaderType + " not initialized! "
                     + "Have you ran initShaders()?");
             System.exit(1);
         }
-        GL20.glUseProgram(shaderPrograms.get(shaderType));
-        
+        GL20.glUseProgram(shaderProgram);
+
         switch (shaderType) {
-            case SIMPLE: {
-                int uniformLoc = GL20.glGetUniformLocation(shaderPrograms.get(Shader.SIMPLE), "mvpMat");
-                GL20.glUniformMatrix4(uniformLoc, false, uniforms[0]);
-                break;
+        case SIMPLE: {
+            if (uniforms == null || uniforms.length < 1) {
+                System.out.println("All uniforms not given for shader " + shaderType + "!");
+                System.exit(1);
             }
+            int uniformLoc = GL20.glGetUniformLocation(shaderPrograms.get(Shader.SIMPLE), "mvpMat");
+            GL20.glUniformMatrix4(uniformLoc, false, uniforms[0]);
+            break;
+        }
         }
     }
 
     private static int compileShader(int shaderType, String shaderSrc) {
-        int shaderID;
-
-        shaderID = GL20.glCreateShader(shaderType);
+        int shaderID = GL20.glCreateShader(shaderType);
         if (shaderID == 0) {
-            System.out.println("Could not create new shader of type "
-                    + shaderType + "!");
+            System.out.println("Could not create new shader!");
             System.exit(1);
         }
 
@@ -60,9 +62,7 @@ public class ShaderManager {
         GL20.glCompileShader(shaderID);
 
         // Check if shader was compiled succesfully
-        IntBuffer compiled = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
-        GL20.glGetShader(shaderID, GL20.GL_COMPILE_STATUS, compiled);
-        if (compiled.get(0) == 0) {
+        if (GL20.glGetShader(shaderID, GL20.GL_COMPILE_STATUS) == 0) {
             System.out.println("Compiling this shader failed:");
             System.out.println(shaderSrc);
             System.out.println(GL20.glGetShaderInfoLog(shaderID, 1000));
@@ -84,8 +84,8 @@ public class ShaderManager {
         int shaderProgram = GL20.glCreateProgram();
 
         if (shaderProgram == 0) {
-            System.out.println("Creating shader program failed for shader \"" +
-                    shaderType + "\"!");
+            System.out.println("Creating shader program failed for shader \""
+                    + shaderType + "\"!");
             System.exit(1);
         }
 
@@ -97,10 +97,9 @@ public class ShaderManager {
         GL20.glLinkProgram(shaderProgram);
 
         //Check if program was linked succesfully
-        IntBuffer linked = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
-        GL20.glGetProgram(shaderProgram, GL20.GL_LINK_STATUS, linked);
-        if (linked.get(0) == 0) {
-            System.out.println("Error linking program:");
+        if (GL20.glGetProgram(shaderProgram, GL20.GL_LINK_STATUS) == 0) {
+            System.out.println("Error linking shader program for " + shaderType
+                    + "!");
             System.out.println(GL20.glGetProgramInfoLog(shaderProgram, 1000));
             System.exit(1);
         }
