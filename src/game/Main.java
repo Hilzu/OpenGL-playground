@@ -1,6 +1,6 @@
 package game;
 
-import ai.BasicAgent;
+import ai.BounceAgent;
 import graphics.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -8,14 +8,12 @@ import org.lwjgl.opengl.GL11;
 public class Main {
 
     public static void main(String[] args) {
-        Graphics.checkGLErrors("Program start");
-        
         Graphics.init();
         Graphics.checkGLErrors("Graphics init");
         
         Square sq = new Square();
-        sq.scale(0.5f, 0.5f);
-        BasicAgent agent = new BasicAgent(sq);
+        sq.scale(0.3f, 0.5f);
+        BounceAgent agent = new BounceAgent(sq);
         
         Time.updateFrameDelta();
         

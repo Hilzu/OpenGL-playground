@@ -4,14 +4,14 @@ import game.Time;
 import graphics.Square;
 import org.lwjgl.util.vector.Vector2f;
 
-public class BasicAgent {
+public class BounceAgent {
     
     private Square square;
     private final float speed = 0.001f;
     private float xSpeed = speed;
     private float ySpeed = speed;
     
-    public BasicAgent(Square sq) {
+    public BounceAgent(Square sq) {
         square = sq;
     }
     
