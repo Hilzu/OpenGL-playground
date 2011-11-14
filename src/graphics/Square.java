@@ -2,7 +2,7 @@ package graphics;
 
 import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -36,7 +36,8 @@ public class Square {
             transformed = false;
         }
         ShaderManager.useShader(shaderType, mvpBuffer);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(0, 3, false, 0, vertices);
+        GL20.glEnableVertexAttribArray(0);
         GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
     }
 
