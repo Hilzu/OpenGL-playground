@@ -15,34 +15,34 @@ public class Square {
         -1.0f, 1.0f, 0.0f,
         1.0f, 1.0f, 0.0f
     };
-    private final FloatBuffer vertices;
+    private final FloatBuffer vertBuffer;
     private final Shader shaderType;
-    private Matrix4f modelViewProjectionMat;
-    private FloatBuffer mvpBuffer;
+    private Matrix4f modelViewMatrix;
+    private FloatBuffer modelViewBuffer;
     private boolean transformed;
 
     public Square() {
-        vertices = Graphics.floatArrayToFloatBuffer(data);
+        vertBuffer = Graphics.floatArrayToFloatBuffer(data);
         shaderType = Shader.SIMPLE;
-        modelViewProjectionMat = new Matrix4f();
-        mvpBuffer = Graphics.floatArrayToFloatBuffer(new float[16]);
+        modelViewMatrix = new Matrix4f();
+        modelViewBuffer = Graphics.floatArrayToFloatBuffer(new float[16]);
         transformed = true;
     }
 
     public void draw() {
         if (transformed) {
-            modelViewProjectionMat.store(mvpBuffer);
-            mvpBuffer.position(0);
+            modelViewMatrix.store(modelViewBuffer);
+            modelViewBuffer.position(0);
             transformed = false;
         }
-        ShaderManager.useShader(shaderType, mvpBuffer);
-        GL20.glVertexAttribPointer(0, 3, false, 0, vertices);
+        ShaderManager.useShader(shaderType, modelViewBuffer);
+        GL20.glVertexAttribPointer(0, 3, false, 0, vertBuffer);
         GL20.glEnableVertexAttribArray(0);
         GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
     }
 
     public void scale(Vector3f vec) {
-        modelViewProjectionMat.scale(vec);
+        modelViewMatrix.scale(vec);
         transformed = true;
     }
 
@@ -61,12 +61,12 @@ public class Square {
         } else {
             rotateAxis = new Vector3f(0, 0, 1.0f);
         }
-        modelViewProjectionMat.rotate(radians, rotateAxis);
+        modelViewMatrix.rotate(radians, rotateAxis);
         transformed = true;
     }
 
     public void translate(Vector2f translateVec) {
-        modelViewProjectionMat.translate(translateVec);
+        modelViewMatrix.translate(translateVec);
         transformed = true;
     }
 
@@ -79,8 +79,8 @@ public class Square {
      * @param location New location of this.
      */
     public void moveTo(float x, float y) {
-        modelViewProjectionMat.m30 = x;
-        modelViewProjectionMat.m31 = y;
+        modelViewMatrix.m30 = x;
+        modelViewMatrix.m31 = y;
         transformed = true;
     }
 
@@ -89,10 +89,12 @@ public class Square {
     }
     
     public Vector2f getDirection() {
-        return new Vector2f(modelViewProjectionMat.m10, modelViewProjectionMat.m11);
+        Vector2f dir = new Vector2f(modelViewMatrix.m10, modelViewMatrix.m11);
+        dir.normalise(dir);
+        return dir;
     }
 
     public Vector2f getLocation() {
-        return new Vector2f(modelViewProjectionMat.m30, modelViewProjectionMat.m31);
+        return new Vector2f(modelViewMatrix.m30, modelViewMatrix.m31);
     }
 }
