@@ -87,7 +87,7 @@ public class Square {
     public void moveTo(Vector2f location) {
         this.moveTo(location.x, location.y);
     }
-    
+
     public Vector2f getDirection() {
         Vector2f dir = new Vector2f(modelViewMatrix.m10, modelViewMatrix.m11);
         dir.normalise(dir);
@@ -97,7 +97,7 @@ public class Square {
     public Vector2f getLocation() {
         return new Vector2f(modelViewMatrix.m30, modelViewMatrix.m31);
     }
-    
+
     public Vector2f getScale() {
         return new Vector2f(modelViewMatrix.m00, modelViewMatrix.m11);
     }

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Util {
+
     public static String readStringFromFile(String path) {
         File fileHandle = new File(path);
         BufferedReader inputReader = null;

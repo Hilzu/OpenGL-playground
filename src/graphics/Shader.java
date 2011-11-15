@@ -3,7 +3,6 @@ package graphics;
 public enum Shader {
 
     SIMPLE("simple.vert", "simple.frag", "vert");
-    
     private final String vertFileName;
     private final String fragFileName;
     private final String[] attributes;

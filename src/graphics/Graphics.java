@@ -54,8 +54,7 @@ public class Graphics {
     }
 
     public static FloatBuffer floatArrayToFloatBuffer(float[] floatArray) {
-        FloatBuffer floatBuffer = ByteBuffer.allocateDirect(floatArray.length * 4)
-                .order(ByteOrder.nativeOrder()).asFloatBuffer();
+        FloatBuffer floatBuffer = ByteBuffer.allocateDirect(floatArray.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         floatBuffer.put(floatArray).position(0);
         return floatBuffer;
     }
