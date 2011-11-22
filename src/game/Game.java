@@ -5,9 +5,9 @@ import graphics.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-public class Main {
-
-    public static void main(String[] args) {
+public class Game {
+    
+    public void run() {
         Graphics.init();
         Graphics.checkGLErrors("Graphics init");
 
@@ -29,5 +29,11 @@ public class Main {
             Graphics.checkGLErrors("Main loop");
             Display.sync(60);
         }
+        Display.destroy();
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.run();
     }
 }
