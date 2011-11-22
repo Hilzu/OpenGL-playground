@@ -8,11 +8,21 @@ public class BounceAgent {
 
     private Square square;
     private final float speed = 0.003f;
-    private float xSpeed = speed;
-    private float ySpeed = speed;
+    private float xSpeed;
+    private float ySpeed;
 
     public BounceAgent(Square sq) {
         square = sq;
+        if (Math.random() * 2 < 1) {
+            xSpeed = speed;
+        } else {
+            xSpeed = -speed;
+        }
+        if (Math.random() * 2 < 1) {
+            ySpeed = speed;
+        } else {
+            ySpeed = -speed;
+        }
     }
 
     public void tick() {
