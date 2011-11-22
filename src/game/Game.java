@@ -24,11 +24,11 @@ public class Game {
             agents.add(agent);
         }
 
-        Time.updateFrameDelta();
+        Time.tick();
 
         Graphics.checkGLErrors("Main loop start");
         while (!Display.isCloseRequested()) {
-            Time.updateFrameDelta();
+            Time.tick();
 
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             for (BounceAgent agent : agents) {
