@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL20;
 
 public class ShaderManager {
 
-    private static Map<Shader, Integer> shaderPrograms =
-            new EnumMap<Shader, Integer>(Shader.class);
+    private static Map<Shader, ShaderProgram> shaderPrograms =
+            new EnumMap<Shader, ShaderProgram>(Shader.class);
 
     public static void initShaders() {
         for (Shader shaderType : Shader.values()) {
@@ -19,32 +19,32 @@ public class ShaderManager {
             String fragShader = Util.readStringFromFile("shaders/"
                     + shaderType.getFragFileName());
 
-            int programObject = createShaderProgram(vertShader, fragShader,
-                    shaderType);
-            shaderPrograms.put(shaderType, programObject);
+            int programID = createShaderProgram(vertShader, fragShader, shaderType);
+
+            int[] uniformLocations = null;
+            switch (shaderType) {
+            case SIMPLE: {
+                uniformLocations = new int[1];
+                uniformLocations[0] = GL20.glGetUniformLocation(programID, "mvpMat");
+                break;
+            }
+            }
+            shaderPrograms.put(shaderType, new ShaderProgram(programID, uniformLocations));
         }
     }
 
     public static void useShader(Shader shaderType, FloatBuffer... uniforms) {
-        Integer shaderProgram = shaderPrograms.get(shaderType);
+        ShaderProgram shaderProgram = shaderPrograms.get(shaderType);
         if (shaderProgram == null) {
             System.out.println("Shader " + shaderType + " not initialized! "
                     + "Have you ran initShaders()?");
             System.exit(1);
         }
-        GL20.glUseProgram(shaderProgram);
-
-        //TODO: cache uniform locations
-        switch (shaderType) {
-        case SIMPLE: {
-            if (uniforms == null || uniforms.length < 1) {
-                System.out.println("All uniforms not given for shader " + shaderType + "!");
-                System.exit(1);
-            }
-            int uniformLoc = GL20.glGetUniformLocation(shaderPrograms.get(Shader.SIMPLE), "mvpMat");
-            GL20.glUniformMatrix4(uniformLoc, false, uniforms[0]);
-            break;
-        }
+        GL20.glUseProgram(shaderProgram.getProgramID());
+        
+        int[] uniformLocations = shaderProgram.getUniformLocations();
+        for (int i = 0; i < uniformLocations.length; i++) {
+            GL20.glUniformMatrix4(uniformLocations[i], false, uniforms[i]);
         }
     }
 
