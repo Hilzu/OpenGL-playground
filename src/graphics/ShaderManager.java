@@ -11,6 +11,10 @@ public class ShaderManager {
 
     private static Map<Shader, ShaderProgram> shaderPrograms =
             new EnumMap<Shader, ShaderProgram>(Shader.class);
+    
+    public static ShaderProgram getShaderProgram(Shader shader) {
+        return shaderPrograms.get(shader);
+    }
 
     public static void initShaders() {
         for (Shader shaderType : Shader.values()) {
@@ -33,7 +37,7 @@ public class ShaderManager {
         }
     }
 
-    public static void useShader(Shader shaderType, FloatBuffer... uniforms) {
+    public static void useShader(Shader shaderType) {
         ShaderProgram shaderProgram = shaderPrograms.get(shaderType);
         if (shaderProgram == null) {
             System.out.println("Shader " + shaderType + " not initialized! "
@@ -41,11 +45,6 @@ public class ShaderManager {
             System.exit(1);
         }
         GL20.glUseProgram(shaderProgram.getProgramID());
-        
-        int[] uniformLocations = shaderProgram.getUniformLocations();
-        for (int i = 0; i < uniformLocations.length; i++) {
-            GL20.glUniformMatrix4(uniformLocations[i], false, uniforms[i]);
-        }
     }
 
     private static int compileShader(int shaderType, String shaderSrc) {

@@ -11,13 +11,12 @@ public class Game {
 
     public void run() {
         Graphics.init();
-        Graphics.checkGLErrors("Graphics init");
 
         List<Square> squares = new LinkedList<Square>();
         List<BounceAgent> agents = new LinkedList<BounceAgent>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             Square square = new Square();
-            square.scale(0.1f, 0.05f);
+            square.scale(0.01f, 0.01f);
             square.moveTo((float) (Math.random() * 2 - 1), (float) (Math.random() * 2 - 1));
             BounceAgent agent = new BounceAgent(square);
             squares.add(square);
@@ -50,6 +49,7 @@ public class Game {
             for (BounceAgent agent : agents) {
                 agent.tick();
             }
+            
             for (Square square : squares) {
                 square.draw();
             }
