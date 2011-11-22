@@ -28,11 +28,11 @@ public class Time {
     }
 
     public static void tick() {
-        updateFrameDeltaz();
+        updateFrameDelta();
         updateFPS();
     }
 
-    private static void updateFrameDeltaz() {
+    private static void updateFrameDelta() {
         long time = getTime();
         int delta = (int) (time - lastFrame);
         lastFrame = time;
