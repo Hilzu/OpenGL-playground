@@ -8,7 +8,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.OpenGLException;
-import org.lwjgl.opengl.Util;
 
 public class Graphics {
 
@@ -42,14 +41,11 @@ public class Graphics {
     }
 
     public static void checkGLErrors(String msg) {
-        while (true) {
-            try {
-                Util.checkGLError();
-                return;
-            } catch (OpenGLException ex) {
-                System.out.print(msg + ": ");
-                System.out.println(ex.getMessage());
-            }
+        try {
+            org.lwjgl.opengl.Util.checkGLError();
+        } catch (OpenGLException ex) {
+            System.out.print(msg + ": ");
+            System.out.println(ex.getMessage());
         }
     }
 
