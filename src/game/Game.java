@@ -8,14 +8,14 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class Game {
-    
+
     public void run() {
         Graphics.init();
         Graphics.checkGLErrors("Graphics init");
 
         List<Square> squares = new LinkedList<Square>();
         List<BounceAgent> agents = new LinkedList<BounceAgent>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1000; i++) {
             Square square = new Square();
             square.scale(0.1f, 0.05f);
             square.moveTo((float) (Math.random() * 2 - 1), (float) (Math.random() * 2 - 1));
@@ -25,6 +25,22 @@ public class Game {
         }
 
         Time.tick();
+
+        Thread fpsPrinter = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {                    
+                    System.out.println("FPS: " + Time.getFps());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        return;
+                    }
+                }
+            }
+        });
+        fpsPrinter.start();
 
         Graphics.checkGLErrors("Main loop start");
         while (!Display.isCloseRequested()) {
@@ -40,8 +56,9 @@ public class Game {
 
             Display.update();
             Graphics.checkGLErrors("Main loop");
-            Display.sync(60);
+            //Display.sync(60);
         }
+        fpsPrinter.interrupt();
         Display.destroy();
     }
 
