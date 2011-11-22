@@ -34,6 +34,7 @@ public class ShaderManager {
         }
         GL20.glUseProgram(shaderProgram);
 
+        //TODO: cache uniform locations
         switch (shaderType) {
         case SIMPLE: {
             if (uniforms == null || uniforms.length < 1) {
