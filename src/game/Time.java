@@ -34,9 +34,8 @@ public class Time {
 
     private static void updateFrameDelta() {
         long time = getTime();
-        int delta = (int) (time - lastFrame);
+        frameDelta = (int) (time - lastFrame);
         lastFrame = time;
-        frameDelta = delta;
     }
 
     private static void updateFPS() {
