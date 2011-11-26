@@ -1,7 +1,6 @@
 package graphics;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import game.Util;
 import java.nio.FloatBuffer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
@@ -58,11 +57,11 @@ public class Graphics {
 
         GL20.glEnableVertexAttribArray(VERT_ATTRIB);
         GL20.glVertexAttribPointer(VERT_ATTRIB, 3, GL11.GL_FLOAT, false, 0, 0);
-        
+
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // TODO: These must be moved to a manager that handles all certain type of objects
-        FloatBuffer vertsBuffer = Graphics.floatArrayToFloatBuffer(squareVerts);
+        FloatBuffer vertsBuffer = Util.floatArrayToBuffer(squareVerts);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertsBuffer, GL15.GL_STATIC_DRAW);
     }
 
@@ -73,12 +72,5 @@ public class Graphics {
             System.out.print(msg + ": ");
             System.out.println(ex.getMessage());
         }
-    }
-
-    public static FloatBuffer floatArrayToFloatBuffer(float[] floatArray) {
-        FloatBuffer floatBuffer = ByteBuffer.allocateDirect(floatArray.length * 4)
-                .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        floatBuffer.put(floatArray).position(0);
-        return floatBuffer;
     }
 }

@@ -1,5 +1,6 @@
 package graphics;
 
+import game.Util;
 import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -17,9 +18,9 @@ public class Square {
 
     public Square() {
         modelViewMatrix = new Matrix4f();
-        modelViewBuffer = Graphics.floatArrayToFloatBuffer(new float[16]);
+        modelViewBuffer = Util.floatArrayToBuffer(new float[16]);
         transformed = true;
-        
+
         // TODO: This should be set only once, not every time a new Square is created
         MV_UNIFORM_LOCATION = ShaderManager.getShaderProgram(SHADER_TYPE).getUniformLocations()[0];
     }
@@ -32,7 +33,6 @@ public class Square {
         }
         GL20.glUniformMatrix4(MV_UNIFORM_LOCATION, false, modelViewBuffer);
 
-        // TODO: This shouldn't be called for every square, but all of them
         GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
     }
 
