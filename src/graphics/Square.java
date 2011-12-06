@@ -10,8 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Square {
 
-    private static final Shader SHADER_TYPE = Shader.SIMPLE;
-    private static int MV_UNIFORM_LOCATION;
+    private static int modelViewUniformLoc;
     private Matrix4f modelViewMatrix;
     private FloatBuffer modelViewBuffer;
     private boolean transformed;
@@ -20,9 +19,6 @@ public class Square {
         modelViewMatrix = new Matrix4f();
         modelViewBuffer = Util.floatArrayToBuffer(new float[16]);
         transformed = true;
-
-        // TODO: This should be set only once, not every time a new Square is created
-        MV_UNIFORM_LOCATION = ShaderManager.getShaderProgram(SHADER_TYPE).getUniformLocations()[0];
     }
 
     public void draw() {
@@ -31,7 +27,7 @@ public class Square {
             modelViewBuffer.position(0);
             transformed = false;
         }
-        GL20.glUniformMatrix4(MV_UNIFORM_LOCATION, false, modelViewBuffer);
+        GL20.glUniformMatrix4(modelViewUniformLoc, false, modelViewBuffer);
 
         GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
     }
@@ -43,6 +39,14 @@ public class Square {
 
     public void scale(float x, float y, float z) {
         this.scale(new Vector3f(x, y, z));
+    }
+
+    public static int getModelViewUniformLoc() {
+        return modelViewUniformLoc;
+    }
+
+    public static void setModelViewUniformLoc(int modelViewUniformLoc) {
+        Square.modelViewUniformLoc = modelViewUniformLoc;
     }
 
     public void scale(float x, float y) {

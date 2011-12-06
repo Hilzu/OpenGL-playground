@@ -29,7 +29,8 @@ public class Graphics {
         initDisplay();
         initGL();
         ShaderManager.initShaders();
-
+        Square.setModelViewUniformLoc(
+                ShaderManager.getShaderProgram(Shader.SIMPLE).getUniformLocations()[0]);
         // TODO: Must move after using several shaders
         ShaderManager.useShader(Shader.SIMPLE);
 
@@ -59,7 +60,7 @@ public class Graphics {
         GL20.glVertexAttribPointer(VERT_ATTRIB, 3, GL11.GL_FLOAT, false, 0, 0);
 
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        
+
         GL11.glEnable(GL11.GL_CULL_FACE);
 
         // TODO: These must be moved to a manager that handles all certain type of objects
