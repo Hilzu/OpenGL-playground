@@ -32,11 +32,11 @@ public class Graphics {
         1.0f, 0f,
         1.0f, 1.0f
     };
-    static final byte x = (byte) 255;
+    private static final byte FF = (byte) 255;
     private static final byte[] TEX_PIXELS = {
-        x, 0, 0, 0, x, 0, x, 0, 0,
-        0, x, 0, 0, 0, x, 0, x, 0,
-        x, 0, x, 0, x, 0, x, 0, 0
+        FF, 0, 0,    0, FF, 0,    FF, 0, 0,
+        0, FF, 0,    0, 0, FF,    0, FF, 0,
+        FF, 0, FF,   0, FF, 0,    FF, 0, 0
     };
 
     public static void init() {
