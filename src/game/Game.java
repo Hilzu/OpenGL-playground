@@ -5,7 +5,7 @@ import graphics.*;
 import java.util.LinkedList;
 import java.util.List;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Game {
 
@@ -29,7 +29,7 @@ public class Game {
 
             @Override
             public void run() {
-                while (true) {                    
+                while (true) {
                     System.out.println("FPS: " + Time.getFps());
                     try {
                         Thread.sleep(1000);
@@ -45,11 +45,11 @@ public class Game {
         while (!Display.isCloseRequested()) {
             Time.tick();
 
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT);
             for (BounceAgent agent : agents) {
                 agent.tick();
             }
-            
+
             for (Square square : squares) {
                 square.draw();
             }

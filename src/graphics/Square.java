@@ -2,8 +2,8 @@ package graphics;
 
 import game.Util;
 import java.nio.FloatBuffer;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -27,9 +27,9 @@ public class Square {
             modelViewBuffer.position(0);
             transformed = false;
         }
-        GL20.glUniformMatrix4(modelViewUniformLoc, false, modelViewBuffer);
+        glUniformMatrix4(modelViewUniformLoc, false, modelViewBuffer);
 
-        GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
 
     public void scale(Vector3f vec) {
