@@ -15,10 +15,12 @@ public class SquareManager {
 
     public static final int VERT_ATTRIB = 0;
     public static final int TEX_COORD_ATTRIB = 1;
+    public static final int POS_SIZE = 3;
+    public static final int TEXCOORD_SIZE = 2;
+    public static final int FLOAT_SIZE = 4;
     private static final Shader SHADER = Shader.SIMPLE;
     private int vaoID;
-    private int verticeVBO;
-    private int textureVBO;
+    private int vboID;
     private int textureID;
     private int samplerLoc;
     private List<Square> squares;
@@ -30,19 +32,20 @@ public class SquareManager {
         vaoID = glGenVertexArrays();
         glBindVertexArray(vaoID);
 
-        verticeVBO = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, verticeVBO);
+        float[] attributes = {
+            Square.POSITIONS[0], Square.POSITIONS[1], Square.POSITIONS[2], Square.TEX_COORDS[0], Square.TEX_COORDS[1],
+            Square.POSITIONS[3], Square.POSITIONS[4], Square.POSITIONS[5], Square.TEX_COORDS[2], Square.TEX_COORDS[3],
+            Square.POSITIONS[6], Square.POSITIONS[7], Square.POSITIONS[8], Square.TEX_COORDS[4], Square.TEX_COORDS[5],
+            Square.POSITIONS[9], Square.POSITIONS[10], Square.POSITIONS[11], Square.TEX_COORDS[6], Square.TEX_COORDS[7]
+        };
+        FloatBuffer attrBuffer = Util.floatArrayToBuffer(attributes);
+        vboID = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glEnableVertexAttribArray(VERT_ATTRIB);
-        glVertexAttribPointer(VERT_ATTRIB, 3, GL_FLOAT, false, 0, 0);
-        FloatBuffer vertsBuffer = Util.floatArrayToBuffer(Square.VERTS);
-        glBufferData(GL_ARRAY_BUFFER, vertsBuffer, GL_STATIC_DRAW);
-
-        textureVBO = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, textureVBO);
         glEnableVertexAttribArray(TEX_COORD_ATTRIB);
-        glVertexAttribPointer(TEX_COORD_ATTRIB, 2, GL_FLOAT, false, 0, 0);
-        FloatBuffer texCoordBuffer = Util.floatArrayToBuffer(Square.TEX_COORDS);
-        glBufferData(GL_ARRAY_BUFFER, texCoordBuffer, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, attrBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(VERT_ATTRIB, POS_SIZE, GL_FLOAT, false, (POS_SIZE + TEXCOORD_SIZE) * FLOAT_SIZE, 0);
+        glVertexAttribPointer(TEX_COORD_ATTRIB, TEXCOORD_SIZE, GL_FLOAT, false, (POS_SIZE + TEXCOORD_SIZE) * FLOAT_SIZE, POS_SIZE * FLOAT_SIZE);
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         textureID = glGenTextures();
