@@ -9,7 +9,24 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Square {
-
+    public static final float[] VERTS = {
+        -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f
+    };
+    public static final float[] TEX_COORDS = {
+        0f, 0f,
+        0f, 1.0f,
+        1.0f, 0f,
+        1.0f, 1.0f
+    };
+    private static final byte FF = (byte) 255;
+    public static final byte[] TEX_PIXELS = {
+        FF, 0, 0, 0, FF, 0, FF, 0, 0,
+        0, FF, 0, 0, 0, FF, 0, FF, 0,
+        FF, 0, FF, 0, FF, 0, FF, 0, 0
+    };
     private static int modelViewUniformLoc;
     private Matrix4f modelViewMatrix;
     private FloatBuffer modelViewBuffer;
