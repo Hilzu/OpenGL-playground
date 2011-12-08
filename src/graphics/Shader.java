@@ -2,7 +2,7 @@ package graphics;
 
 public enum Shader {
 
-    SIMPLE("simple.vert", "simple.frag", "vert");
+    SIMPLE("simple.vert", "simple.frag", "in_vertices", "in_tex_coords");
     private final String vertFileName;
     private final String fragFileName;
     private final String[] attributes;

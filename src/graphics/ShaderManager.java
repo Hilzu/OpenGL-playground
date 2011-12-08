@@ -28,8 +28,9 @@ public class ShaderManager {
             int[] uniformLocations = null;
             switch (shaderType) {
             case SIMPLE: {
-                uniformLocations = new int[1];
-                uniformLocations[0] = GL20.glGetUniformLocation(programID, "mvpMat");
+                uniformLocations = new int[2];
+                uniformLocations[0] = GL20.glGetUniformLocation(programID, "u_mvp_mat");
+                uniformLocations[1] = GL20.glGetUniformLocation(programID, "s_texture");
                 break;
             }
             }
