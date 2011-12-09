@@ -35,6 +35,7 @@ public class Graphics {
     private static void initGL() {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_CULL_FACE);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     }
 
     public static void checkGLErrors(String msg) {
