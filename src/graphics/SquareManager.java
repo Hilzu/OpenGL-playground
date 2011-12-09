@@ -40,14 +40,14 @@ public class SquareManager {
             Square.POS[6], Square.POS[7], Square.POS[8], Square.TEX_COORDS[4], Square.TEX_COORDS[5], // vertex 3
             Square.POS[9], Square.POS[10], Square.POS[11], Square.TEX_COORDS[6], Square.TEX_COORDS[7] // vertex 4
         };
-        FloatBuffer attrBuffer = Util.floatArrayToBuffer(attributes);
+        FloatBuffer attribBuffer = Util.floatArrayToBuffer(attributes);
 
         // Create a vbo and load all vertex data to it
         vboID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glEnableVertexAttribArray(VERT_ATTRIB);
         glEnableVertexAttribArray(TEX_COORD_ATTRIB);
-        glBufferData(GL_ARRAY_BUFFER, attrBuffer, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, attribBuffer, GL_STATIC_DRAW);
         glVertexAttribPointer(VERT_ATTRIB, POS_SIZE, GL_FLOAT, false, (POS_SIZE + TEX_COORD_SIZE) * FLOAT_SIZE, 0);
         glVertexAttribPointer(TEX_COORD_ATTRIB, TEX_COORD_SIZE, GL_FLOAT, false, (POS_SIZE + TEX_COORD_SIZE) * FLOAT_SIZE, POS_SIZE * FLOAT_SIZE);
 
