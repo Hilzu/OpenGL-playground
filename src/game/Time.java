@@ -4,11 +4,11 @@ import org.lwjgl.Sys;
 
 public class Time {
 
-    private static long lastFrame = 0;
+    private static long prevFrameTime = 0;
     private static int frameDelta = 1;
     private static int fps = 0;
     private static int framesSinceFPSupdate = 0;
-    private static int timeSinceFPSupdate = 0;
+    private static long prevFPSupdateTime = 0;
 
     /**
      * Get the time in milliseconds
@@ -34,17 +34,16 @@ public class Time {
 
     private static void updateFrameDelta() {
         long time = getTime();
-        frameDelta = (int) (time - lastFrame);
-        lastFrame = time;
+        frameDelta = (int) (time - prevFrameTime);
+        prevFrameTime = time;
     }
 
     private static void updateFPS() {
         framesSinceFPSupdate++;
-        timeSinceFPSupdate += frameDelta;
-        if (timeSinceFPSupdate >= 1000) {
+        if ((getTime() - prevFPSupdateTime) >= 1000) {
             fps = framesSinceFPSupdate;
             framesSinceFPSupdate = 0;
-            timeSinceFPSupdate = 0;
+            prevFPSupdateTime = getTime();
         }
     }
 }
