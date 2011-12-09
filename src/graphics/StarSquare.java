@@ -1,18 +1,20 @@
 package graphics;
 
-import ai.BounceAgent;
-import java.util.List;
-import java.util.LinkedList;
 import java.nio.FloatBuffer;
 import game.Util;
+import java.io.IOException;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-public class SquareManager {
+public class StarSquare extends Square {
 
+    Texture tex;
     public static final int VERT_ATTRIB = 0;
     public static final int TEX_COORD_ATTRIB = 1;
     public static final int POS_SIZE = 3;
@@ -23,13 +25,20 @@ public class SquareManager {
     private int vboID;
     private int textureID;
     private int samplerLoc;
-    private List<Square> squares;
-    private List<BounceAgent> agents;
 
-    public SquareManager() {
+    public StarSquare() {
+        super();
+        scale(0.1f, 0.15f);
+        glActiveTexture(GL_TEXTURE1);
+        try {
+            tex = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/star.png"));
+        } catch (IOException ex) {
+            System.out.println("Could not load star.png!");
+            System.exit(1);
+        }
+        
         ShaderManager.useShader(SHADER);
-        Square.setModelViewUniformLoc(ShaderManager.getShaderProgram(SHADER).getUniformLocations()[0]);
-
+        
         vaoID = glGenVertexArrays();
         glBindVertexArray(vaoID);
 
@@ -51,44 +60,16 @@ public class SquareManager {
         glVertexAttribPointer(VERT_ATTRIB, POS_SIZE, GL_FLOAT, false, (POS_SIZE + TEX_COORD_SIZE) * FLOAT_SIZE, 0);
         glVertexAttribPointer(TEX_COORD_ATTRIB, TEX_COORD_SIZE, GL_FLOAT, false, (POS_SIZE + TEX_COORD_SIZE) * FLOAT_SIZE, POS_SIZE * FLOAT_SIZE);
 
-        // Create and load squares texture
-        textureID = glGenTextures();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureID);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
         samplerLoc = ShaderManager.getShaderProgram(SHADER).getUniformLocations()[1];
-        glUniform1i(samplerLoc, 0);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 3, 3, 0, GL_RGB, GL_UNSIGNED_BYTE, Util.byteArrayToBuffer(Square.TEX_PIXELS));
-
-        // Create squares in random locations and give them to agents that move them
-        squares = new LinkedList<Square>();
-        agents = new LinkedList<BounceAgent>();
-        for (int i = 0; i < 10000; i++) {
-            Square square = new Square();
-            square.scale(0.01f, 0.01f);
-            square.moveTo((float) (Math.random() * 2 - 1), (float) (Math.random() * 2 - 1));
-            BounceAgent agent = new BounceAgent(square);
-            squares.add(square);
-            agents.add(agent);
-        }
+        glUniform1i(samplerLoc, 1);
     }
 
-    public void update() {
+    @Override
+    public void draw() {
         ShaderManager.useShader(SHADER);
         glBindVertexArray(vaoID);
-        glActiveTexture(GL_TEXTURE0);
-        glUniform1i(samplerLoc, 0);
-
-        for (BounceAgent agent : agents) {
-            agent.tick();
-        }
-
-        for (Square square : squares) {
-            square.draw();
-        }
+        glActiveTexture(GL_TEXTURE1);
+        glUniform1i(samplerLoc, 1);
+        super.draw();
     }
 }

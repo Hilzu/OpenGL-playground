@@ -9,6 +9,7 @@ public class Game {
     public void run() {
         Graphics.init();
         SquareManager squareManager = new SquareManager();
+        StarSquare star = new StarSquare();
         Time.tick();
 
         Thread fpsPrinter = new Thread(new Runnable() {
@@ -33,6 +34,7 @@ public class Game {
             glClear(GL_COLOR_BUFFER_BIT);
             
             squareManager.update();
+            star.draw();
 
             Display.update();
             Graphics.checkGLErrors("Main loop");
